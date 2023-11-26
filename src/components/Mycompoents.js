@@ -2,7 +2,7 @@
 // function compoent
 
 import React from "react";
-import UserInfor from "./Userinfor";
+import AddUserInfor from "./AddUserinfor";
 import DisplayInfor from "./DisplayInfor";
 
 class MyCompoents extends React.Component {
@@ -15,15 +15,24 @@ class MyCompoents extends React.Component {
 
         ]
     }
+
+    handleAddNewUser = (userObj) => {
+        this.setState({
+            listUsers: [userObj, ...this.state.listUsers]
+        })
+    }
     //JSX
     render() {
 
         return (
             <div>
-                <UserInfor></UserInfor>
+                <AddUserInfor handleAddNewUser={this.handleAddNewUser}>
+
+                </AddUserInfor>
                 <br></br>
                 <DisplayInfor
                     listUsers={this.state.listUsers}
+
                 />
             </div>
         );
