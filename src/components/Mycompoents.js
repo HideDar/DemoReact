@@ -74,7 +74,7 @@ const MyCompoents = (props) => {
     const handleDeleteUser = (userId) => {
         let listUsersClone = listUsers;
         listUsersClone = listUsersClone.filter(item => item.id !== userId);
-        setListUsers(listUsers);
+        setListUsers(listUsersClone);
     }
     return (
         <>
@@ -85,7 +85,7 @@ const MyCompoents = (props) => {
                 </AddUserInfor>
                 <br></br>
                 <DisplayInfor
-                    listUsers={this.state.listUsers}
+                    listUsers={listUsers}
                     handleDeleteUser={handleDeleteUser}
 
                 />
