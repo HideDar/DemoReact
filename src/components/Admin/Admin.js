@@ -4,6 +4,7 @@ import { FaBars } from 'react-icons/fa';
 import { useState } from "react";
 import { Outlet, Link } from "react-router-dom";
 
+
 const Admin = (props) => {
     const [collapsed, setCollapsed] = useState(false);
 
