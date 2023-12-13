@@ -78,11 +78,12 @@ body {
 
       .title-3 {
         button {
-          border: 1px solid #535353;
           border-radius: 5px;
+          padding: 0 15px;
           color: #fff;
           background: #363636;
           height: 40px;
+          border: none;
 
           s &:hover {
             background: #000;
