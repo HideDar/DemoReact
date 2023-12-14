@@ -1,14 +1,21 @@
 import userEvent from '@testing-library/user-event';
+import axios from 'axios';
 import { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import { FcPlus } from 'react-icons/fc';
+import { resolvePath } from 'react-router-dom';
 
-const ModalCreateUser = () => {
-    const [show, setShow] = useState(false);
-
-    const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
+const ModalCreateUser = (props) => {
+    const { show, setShow } = props;
+    const handleClose = () => {
+        setShow(false)
+        setEmail("")
+        setImage("")
+        setPassword("")
+        setRole("USER")
+        setPreviewImage("")
+    };
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -27,12 +34,35 @@ const ModalCreateUser = () => {
 
     }
 
+    const handleSubmitCreateUser = async () => {
+
+
+        //Call APIS
+        // let data = {
+        //     email: email,
+        //     password: password,
+        //     username: username,
+        //     role: role,
+        //     userImage: imgae,
+        // }
+
+        const data = new FormData();
+        data.append('email', email)
+        data.append('password', password);
+        data.append('username', username);
+        data.append('role', role);
+        data.append('userImage', imgae);
+
+        let res = await axios.post('http://localhost:8081/api/v1/participant', data);
+
+    }
+
 
     return (
         <>
-            <Button variant="primary" onClick={handleShow}>
+            {/* <Button variant="primary" onClick={handleShow}>
                 Launch demo modal
-            </Button>
+            </Button> */}
 
             <Modal show={show} onHide={handleClose}
                 size="xl"
@@ -64,7 +94,8 @@ const ModalCreateUser = () => {
                         </div>
                         <div className="col-md-4">
                             <label className="form-label">Role</label>
-                            <select className="form-select" onChange={(event) => setRole(event.target.value)}>
+                            <select className="form-select" onChange={(event) => setRole(event.target.value)}
+                                value={role}>
                                 <option selected value="USER">USER</option>
                                 <option selected value="ADMIN">ADMIN</option>
                             </select>
@@ -93,7 +124,7 @@ const ModalCreateUser = () => {
                     <Button variant="secondary" onClick={handleClose}>
                         Close
                     </Button>
-                    <Button variant="primary" onClick={handleClose}>
+                    <Button variant="primary" onClick={() => handleSubmitCreateUser()}>
                         Save
                     </Button>
                 </Modal.Footer>
