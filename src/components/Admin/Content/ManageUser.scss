@@ -5,7 +5,13 @@
         .btn-add-new {
             margin: 15px 0;
 
-            .btn-primary {}
+            .btn-primary {
+                svg {
+                    margin-right: 5px;
+                }
+            }
+
+
         }
     }
 
