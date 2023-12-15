@@ -2,14 +2,14 @@ import axios from "../utils/axiosCustomize";
 // import axios from "axios";
 
 
-const postCreateNewUser = (email, password, username, role, imgae) => {
+const postCreateNewUser = (email, password, username, role, image) => {
     //Call APIS
     const data = new FormData();
     data.append('email', email)
     data.append('password', password);
     data.append('username', username);
     data.append('role', role);
-    data.append('userImage', imgae);
+    data.append('userImage', image);
     return axios.post('api/v1/participant', data);
 }
 
@@ -18,15 +18,20 @@ const getAllUser = () => {
     return axios.get('api/v1/participant/all');
 }
 
-const putUpdateUser = (id, username, role, imgae) => {
+const putUpdateUser = (id, username, role, image) => {
     //Call APIS
     const data = new FormData();
 
     data.append('id', id);
     data.append('username', username);
     data.append('role', role);
-    data.append('userImage', imgae);
+    data.append('userImage', image);
     return axios.put('api/v1/participant', data);
 }
 
-export { postCreateNewUser, getAllUser, putUpdateUser }
+const DelUser = (userId) => {
+    //Call APIS
+    return axios.delete('api/v1/participant', { data: { id: userId } });
+}
+
+export { postCreateNewUser, getAllUser, putUpdateUser, DelUser }

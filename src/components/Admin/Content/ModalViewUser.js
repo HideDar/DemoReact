@@ -5,12 +5,11 @@ import Modal from 'react-bootstrap/Modal';
 import { FcPlus } from 'react-icons/fc';
 import { dataolvePath } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
-import { putUpdateUser } from '../../../Services/apiServices';
 import _ from 'lodash';
 
 
-const ModalUpdateUser = (props) => {
-    const { show, setShow, dataUpdate } = props;
+const ModalViewUser = (props) => {
+    const { show, setShow, dataView } = props;
     const handleClose = () => {
         setShow(false)
 
@@ -32,17 +31,17 @@ const ModalUpdateUser = (props) => {
     const [previewImage, setPreviewImage] = useState("");
 
     useEffect(() => {
-        if (!_.isEmpty(dataUpdate)) {
-            setEmail(dataUpdate.email);
-            setUsername(dataUpdate.username);
-            setRole(dataUpdate.role)
+        if (!_.isEmpty(dataView)) {
+            setEmail(dataView.email);
+            setUsername(dataView.username);
+            setRole(dataView.role)
             setImage("")
-            if (dataUpdate.image) {
-                setPreviewImage(`data:image/jpeg;base64,${dataUpdate.image}`)
+            if (dataView.image) {
+                setPreviewImage(`data:image/jpeg;base64,${dataView.image}`)
             }
         }
 
-    }, [props.dataUpdate])
+    }, [props.dataView])
 
     const handleUploadImage = (event) => {
         if (event.target && event.target.files && event.target.files[0]) {
@@ -53,21 +52,6 @@ const ModalUpdateUser = (props) => {
         }
 
     }
-
-    const handleSubmitUpdateUser = async () => {
-
-        let data = await putUpdateUser(dataUpdate.id, username, role, image);
-        console.log("component data: ", data)
-        if (data && data.EC === 0) {
-            toast.success(data.EM);
-            handleClose();
-            await props.fetchListUsers();
-        }
-        if (data && data.EC !== 0) {
-            toast.error(data.EM);
-        }
-    }
-
     return (
         <>
             <Modal show={show} onHide={handleClose}
@@ -94,20 +78,20 @@ const ModalUpdateUser = (props) => {
                         </div>
                         <div className="col-md-6">
                             <label className="form-label">Username</label>
-                            <input type="text" className="form-control" value={username}
+                            <input type="text" className="form-control" value={username} disabled={true}
                                 onChange={(event) => setUsername(event.target.value)}
                             />
                         </div>
                         <div className="col-md-4">
                             <label className="form-label">Role</label>
-                            <select className="form-select" onChange={(event) => setRole(event.target.value)}
+                            <select className="form-select" onChange={(event) => setRole(event.target.value)} disabled={true}
                                 value={role}>
                                 <option selected value="USER">USER</option>
                                 <option selected value="ADMIN">ADMIN</option>
                             </select>
                         </div>
                         <div className='col-md-12'>
-                            <label className="form-label lable-upload" htmlFor='LableUpload'>
+                            <label className="form-label lable-upload" htmlFor='LableUpload' disabled={true}>
                                 <FcPlus />
                                 Up Load File Image
                             </label>
@@ -130,13 +114,10 @@ const ModalUpdateUser = (props) => {
                     <Button variant="secondary" onClick={handleClose}>
                         Close
                     </Button>
-                    <Button variant="primary" onClick={() => handleSubmitUpdateUser()}>
-                        Save
-                    </Button>
                 </Modal.Footer>
             </Modal>
         </>
     );
 }
 
-export default ModalUpdateUser;
+export default ModalViewUser;
