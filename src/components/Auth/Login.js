@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { postLogin } from '../../Services/apiServices';
 import { ToastContainer, toast } from 'react-toastify';
 import { useDispatch } from 'react-redux';
+import {ImSpinner10} from 'react-icons/im';
 import { doLogin } from '../../redux/action/userAction';
 
 const Login = () => {
@@ -12,6 +13,9 @@ const Login = () => {
     const [password, setPassword] = useState("");
     const navigate = useNavigate();
     const dispatch = useDispatch();
+    const [isLoading, setIsLoading] = useState(false);
+
+
 
     const handleLogin = async () => {
 
@@ -34,16 +38,20 @@ const Login = () => {
             return;
         }
 
+        setIsLoading(true);
+
         //submit apis
         let data = await postLogin(email, password);
-        console.log(data);
+       
         if (data && data.EC === 0) {
-            dispatch(doLogin(data))
+            dispatch(doLogin(data));
             toast.success(data.EM);
+            setIsLoading(false);
             navigate('/')
         }
         if (data && +data.EC !== 0) {
             toast.error(data.EM);
+            setIsLoading(false);
         }
     }
 
@@ -85,7 +93,12 @@ const Login = () => {
                     <button
                         className='btn-submit'
                         onClick={() => handleLogin()}
-                    >Login to Quiz</button>
+                        disabled = {isLoading}
+                    >
+                        {isLoading === true && < ImSpinner10 className='loader-icon'/>}
+                        <span>Login to Quiz</span>
+                    </button>
+
                 </div>
 
                 <div className='text-center'>
