@@ -8,9 +8,7 @@ import { NavDropdown } from 'react-bootstrap';
 const Header = () => {
 
     const isAuthenticated = useSelector(state => state.user.isAuthenticated)
-    const account = useSelector(state => state.user.account)
-    console.log("check isAu", isAuthenticated)
-    console.log("check acc", account)
+    const account = useSelector(state => state.user.account);
 
     const navigate = useNavigate();
     const handleLogin = () => {
